@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="7">
+    <Units Count="9">
       <Unit0>
         <Filename Value="ore_example1.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -21,7 +21,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uexample1main"/>
-        <CursorPos X="10" Y="17"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="2"/>
+        <CursorPos X="3" Y="36"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -35,8 +37,8 @@
       <Unit3>
         <Filename Value="C:\Programme\lazarus\lcl\extctrls.pp"/>
         <UnitName Value="ExtCtrls"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="415"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="433"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -49,7 +51,7 @@
       <Unit5>
         <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
         <UnitName Value="DOM"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="184"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
@@ -57,14 +59,27 @@
       <Unit6>
         <Filename Value="..\richedit.pas"/>
         <UnitName Value="RichEdit"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="35" Y="8"/>
+        <CursorPos X="22" Y="44"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit6>
+      <Unit7>
+        <Filename Value="..\scrollingcontrol.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="16"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\domlayout.pas"/>
+        <UnitName Value="DOMLayout"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="22" Y="8"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit8>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="12" HistoryIndex="11">
       <Position1>
         <Filename Value="uexample1main.pas"/>
         <Caret Line="18" Column="5"/>
@@ -80,6 +95,38 @@
       <Position4>
         <Filename Value="..\richedit.pas"/>
       </Position4>
+      <Position5>
+        <Filename Value="..\richedit.pas"/>
+        <Caret Line="8" Column="45"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\richedit.pas"/>
+        <Caret Line="15" Column="31"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\richedit.pas"/>
+        <Caret Line="22" Column="82" TopLine="4"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\richedit.pas"/>
+        <Caret Line="30" Column="30" TopLine="4"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uexample1main.pas"/>
+        <Caret Line="30" Column="18"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\richedit.pas"/>
+        <Caret Line="17" Column="51" TopLine="8"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uexample1main.pas"/>
+        <Caret Line="34" Column="81"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uexample1main.pas"/>
+        <Caret Line="36" Column="44"/>
+      </Position12>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

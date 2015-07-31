@@ -11,11 +11,15 @@
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
-    <Files Count="1">
+    <Files Count="2">
       <Item1>
         <Filename Value="richedit.pas"/>
         <UnitName Value="RichEdit"/>
       </Item1>
+      <Item2>
+        <Filename Value="domlayout.pas"/>
+        <UnitName Value="domlayout"/>
+      </Item2>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

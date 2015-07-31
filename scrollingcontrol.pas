@@ -1,4 +1,4 @@
-unit scrollingcontrol;
+unit ScrollingControl;
 
 //This is a very tiny wrapper, not for general purpose
 //22.6.2010 Theo

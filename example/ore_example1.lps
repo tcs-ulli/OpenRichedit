@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="20">
+    <Units Count="22">
       <Unit0>
         <Filename Value="ore_example1.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -12,7 +12,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="25"/>
       </Unit0>
       <Unit1>
         <Filename Value="uexample1main.pas"/>
@@ -21,9 +21,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uexample1main"/>
-        <TopLine Value="32"/>
-        <CursorPos X="19" Y="52"/>
-        <UsageCount Value="22"/>
+        <TopLine Value="21"/>
+        <CursorPos X="8" Y="40"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -31,56 +31,55 @@
         <Filename Value="..\package\richedit.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="14" Y="11"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit2>
       <Unit3>
         <Filename Value="C:\Programme\lazarus\lcl\extctrls.pp"/>
         <UnitName Value="ExtCtrls"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="433"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit3>
       <Unit4>
         <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom_html.pp"/>
         <UnitName Value="DOM_HTML"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="45"/>
-        <CursorPos X="27" Y="49"/>
-        <UsageCount Value="11"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="595"/>
+        <CursorPos X="15" Y="369"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
         <UnitName Value="DOM"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="2102"/>
-        <CursorPos X="17" Y="2123"/>
-        <UsageCount Value="11"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="365"/>
+        <CursorPos X="14" Y="414"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="..\richedit.pas"/>
         <UnitName Value="RichEdit"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="4"/>
-        <CursorPos X="53" Y="21"/>
-        <UsageCount Value="11"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="45" Y="18"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="..\scrollingcontrol.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="16"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit7>
       <Unit8>
         <Filename Value="..\domlayout.pas"/>
         <UnitName Value="DOMLayout"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="7"/>
-        <TopLine Value="5"/>
-        <CursorPos X="45" Y="18"/>
-        <UsageCount Value="11"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="3"/>
+        <CursorPos X="3" Y="56"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit8>
       <Unit9>
@@ -88,7 +87,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="924"/>
         <CursorPos Y="943"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit9>
       <Unit10>
         <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\tests\testgen.pp"/>
@@ -96,14 +95,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="844"/>
         <CursorPos X="56" Y="872"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit10>
       <Unit11>
         <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\tests\extras.pp"/>
         <UnitName Value="extras"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="208"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit11>
       <Unit12>
         <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\tests\xpathts.pp"/>
@@ -111,7 +110,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="146"/>
         <CursorPos X="10" Y="874"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit12>
       <Unit13>
         <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\tests\domunit.pp"/>
@@ -119,7 +118,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="295"/>
         <CursorPos X="18" Y="321"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit13>
       <Unit14>
         <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\xmlread.pp"/>
@@ -127,31 +126,30 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="78"/>
         <CursorPos X="3" Y="97"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit14>
       <Unit15>
         <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\sax.pp"/>
         <UnitName Value="SAX"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="692"/>
-        <CursorPos X="3" Y="696"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="214"/>
+        <CursorPos X="3" Y="149"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit15>
       <Unit16>
         <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\sax_html.pp"/>
         <UnitName Value="SAX_HTML"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="712"/>
-        <CursorPos X="3" Y="717"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="24"/>
+        <CursorPos X="3" Y="703"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit16>
       <Unit17>
         <Filename Value="test1.html"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <CursorPos X="3" Y="4"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="HTML"/>
       </Unit17>
@@ -171,128 +169,151 @@
         <CursorPos X="3" Y="91"/>
         <UsageCount Value="10"/>
       </Unit19>
+      <Unit20>
+        <Filename Value="C:\Programme\lazarus\lcl\graphics.pp"/>
+        <UnitName Value="Graphics"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1026"/>
+        <CursorPos X="30" Y="1045"/>
+        <UsageCount Value="10"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-image\src\fpcanvas.pp"/>
+        <UnitName Value="FPCanvas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="213"/>
+        <CursorPos X="3" Y="232"/>
+        <UsageCount Value="10"/>
+      </Unit21>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="..\richedit.pas"/>
-        <Caret Line="21" Column="34"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="48" TopLine="52"/>
       </Position1>
       <Position2>
-        <Filename Value="..\richedit.pas"/>
-        <Caret Line="8" Column="72" TopLine="2"/>
+        <Filename Value="uexample1main.pas"/>
+        <Caret Line="42" TopLine="24"/>
       </Position2>
       <Position3>
-        <Filename Value="..\richedit.pas"/>
-        <Caret Line="14" Column="28" TopLine="2"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="74" Column="72" TopLine="52"/>
       </Position3>
       <Position4>
-        <Filename Value="..\richedit.pas"/>
-        <Caret Line="43" Column="28" TopLine="16"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="78" TopLine="52"/>
       </Position4>
       <Position5>
-        <Filename Value="uexample1main.pas"/>
-        <Caret Line="34" Column="15" TopLine="6"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="80" TopLine="52"/>
       </Position5>
       <Position6>
-        <Filename Value="uexample1main.pas"/>
-        <Caret Line="36" Column="24" TopLine="6"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="78" TopLine="52"/>
       </Position6>
       <Position7>
-        <Filename Value="uexample1main.pas"/>
-        <Caret Line="41" Column="25" TopLine="6"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="80" TopLine="52"/>
       </Position7>
       <Position8>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="13" Column="15"/>
+        <Caret Line="78" TopLine="52"/>
       </Position8>
       <Position9>
-        <Filename Value="uexample1main.pas"/>
-        <Caret Line="59" Column="25" TopLine="48"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="80" TopLine="52"/>
       </Position9>
       <Position10>
-        <Filename Value="uexample1main.pas"/>
-        <Caret Line="58" TopLine="48"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="78" TopLine="52"/>
       </Position10>
       <Position11>
-        <Filename Value="uexample1main.pas"/>
-        <Caret Line="61" Column="17" TopLine="48"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="80" TopLine="52"/>
       </Position11>
       <Position12>
-        <Filename Value="uexample1main.pas"/>
-        <Caret Line="58" TopLine="48"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="78" TopLine="52"/>
       </Position12>
       <Position13>
-        <Filename Value="uexample1main.pas"/>
-        <Caret Line="61" TopLine="48"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="80" TopLine="52"/>
       </Position13>
       <Position14>
-        <Filename Value="uexample1main.pas"/>
-        <Caret Line="62" TopLine="48"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="78" TopLine="52"/>
       </Position14>
       <Position15>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom_html.pp"/>
-        <Caret Line="81" Column="60" TopLine="70"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="80" TopLine="52"/>
       </Position15>
       <Position16>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom_html.pp"/>
-        <Caret Line="838" Column="30" TopLine="835"/>
+        <Filename Value="uexample1main.pas"/>
+        <Caret Line="40" Column="8" TopLine="24"/>
       </Position16>
       <Position17>
-        <Filename Value="..\domlayout.pas"/>
-        <Caret Line="26" TopLine="10"/>
+        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\sax_html.pp"/>
+        <Caret Line="706" Column="13" TopLine="699"/>
       </Position17>
       <Position18>
-        <Filename Value="..\domlayout.pas"/>
-        <Caret Line="33" Column="24" TopLine="10"/>
+        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\sax_html.pp"/>
+        <Caret Line="720" Column="29" TopLine="712"/>
       </Position18>
       <Position19>
-        <Filename Value="..\domlayout.pas"/>
-        <Caret Line="41" Column="3" TopLine="10"/>
+        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\sax_html.pp"/>
+        <Caret Line="566" Column="14" TopLine="552"/>
       </Position19>
       <Position20>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom_html.pp"/>
-        <Caret Line="79" Column="33" TopLine="73"/>
+        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\sax_html.pp"/>
+        <Caret Line="80" Column="22" TopLine="66"/>
       </Position20>
       <Position21>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom_html.pp"/>
-        <Caret Line="49" Column="27" TopLine="45"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="80" Column="32" TopLine="58"/>
       </Position21>
       <Position22>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
-        <Caret Line="582" Column="27" TopLine="581"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="82" TopLine="59"/>
       </Position22>
       <Position23>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
-        <Caret Line="539" Column="31" TopLine="532"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="81" Column="23" TopLine="62"/>
       </Position23>
       <Position24>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
-        <Caret Line="276" Column="36" TopLine="272"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="32" Column="54"/>
       </Position24>
       <Position25>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
-        <Caret Line="216" Column="21" TopLine="202"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="28" Column="17" TopLine="9"/>
       </Position25>
       <Position26>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
-        <Caret Line="450" Column="10" TopLine="418"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="78" Column="46" TopLine="59"/>
       </Position26>
       <Position27>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
-        <Caret Line="902" Column="20" TopLine="888"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="88" Column="8" TopLine="69"/>
       </Position27>
       <Position28>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
-        <Caret Line="905" Column="20" TopLine="888"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="101" Column="38" TopLine="72"/>
       </Position28>
       <Position29>
-        <Filename Value="C:\Programme\lazarus140\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
-        <Caret Line="2123" Column="17" TopLine="2102"/>
+        <Filename Value="..\domlayout.pas"/>
+        <Caret Line="16" Column="30"/>
       </Position29>
       <Position30>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="24" Column="28" TopLine="4"/>
+        <Caret Line="49" Column="15" TopLine="30"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
+  <Debugging>
+    <Watches Count="1">
+      <Item1>
+        <Expression Value="aNode"/>
+      </Item1>
+    </Watches>
+  </Debugging>
 </CONFIG>

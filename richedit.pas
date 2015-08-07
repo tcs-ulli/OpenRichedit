@@ -5,20 +5,20 @@ unit RichEdit;
 interface
 
 uses
-  Classes, SysUtils, Controls, DOM, ScrollingControl,Graphics;
+  Classes, SysUtils, Controls, DOM, ScrollingControl,Graphics,DOMLayout;
 
 type
   TRichEdit = class(TScrollingControl)
   private
     FBGColor: TColor;
-    FDOM: TDOMDocument;
+    FDoc: TLayoutedDocument;
   protected
     procedure Paint; override;
     procedure DoRender(aCanvas : TCanvas);virtual;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    property DOM : TDOMDocument read FDOM;
+    property Document : TLayoutedDocument read FDoc;
   published
     property DefaultColor : TColor read FBGColor write FBGColor default clWindow;
   end;
@@ -40,13 +40,13 @@ end;
 constructor TRichEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FDOM := TDOMDocument.Create;
+  FDoc := TLayoutedDocument.Create;
   FBGColor:=clWindow;
 end;
 
 destructor TRichEdit.Destroy;
 begin
-  FDOM.Free;
+  FDoc.Free;
   inherited Destroy;
 end;
 

@@ -15,6 +15,8 @@ type
   protected
     procedure Paint; override;
     procedure DoRender(aCanvas : TCanvas);virtual;
+    procedure ChangeBounds(ALeft, ATop, AWidth, AHeight: integer;
+      KeepBase: boolean); override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -34,7 +36,14 @@ end;
 
 procedure TRichEdit.DoRender(aCanvas: TCanvas);
 begin
+  FDoc.RenderToCanvas(aCanvas,Rect(0,0,Width,Height));
+end;
 
+procedure TRichEdit.ChangeBounds(ALeft, ATop, AWidth, AHeight: integer;
+  KeepBase: boolean);
+begin
+  inherited ChangeBounds(ALeft, ATop, AWidth, AHeight, KeepBase);
+  FDoc.Width:=AWidth;
 end;
 
 constructor TRichEdit.Create(AOwner: TComponent);

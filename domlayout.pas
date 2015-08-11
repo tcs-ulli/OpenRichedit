@@ -93,16 +93,19 @@ var
   aPos: TPoint;
   aLineI : Integer = 0;
   aLine : string = '';
+  PartWidth: Integer;
 begin
   tmp := DOMNode.TextContent;
   aPos := StartAt;
   FLines.Clear;
   while pos(' ',tmp)>0 do
     begin
-      if aCanvas.TextWidth(copy(tmp,0,pos(' ',tmp)-1))+aPos.x<FParent.Width then
+      PartWidth := aCanvas.TextWidth(copy(tmp,0,pos(' ',tmp)-1));
+      if PartWidth+aPos.x<FParent.Width then
         begin
           aLine += copy(tmp,0,pos(' ',tmp));
           tmp := copy(tmp,pos(' ',tmp)+1,length(tmp));
+          aPos.x+=PartWidth;
         end
       else
         begin
@@ -204,6 +207,8 @@ procedure TLayoutNode.RenderToCanvas(aCanvas: TFPCustomCanvas; ViewPort: TRect);
 var
   i: Integer;
 begin
+  FCanvas := aCanvas;
+  if not IsInView(ViewPort) then exit;
   for i := 0 to Count-1 do
     if TLayoutNode(Items[i]).IsInView(ViewPort) then
       TLayoutNode(Items[i]).RenderToCanvas(aCanvas,ViewPort);
@@ -243,8 +248,7 @@ var
   i: Integer;
 begin
   for i := 0 to FLayout.Count-1 do
-    if TLayoutNode(FLayout[i]).IsInView(ViewPort) then
-      TLayoutNode(FLayout[i]).RenderToCanvas(aCanvas,ViewPort);
+    TLayoutNode(FLayout[i]).RenderToCanvas(aCanvas,ViewPort);
 end;
 
 end.

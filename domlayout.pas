@@ -1,3 +1,12 @@
+{
+Line
+1   Element 1 Element 2<br>
+2   Element 2 Image 1
+3   Element 3 Image 1
+4   Element 3 Image 1
+5   Element 3 Element 3<br>
+}
+
 unit DOMLayout;
 
 {$mode objfpc}{$H+}
@@ -25,10 +34,12 @@ type
     procedure RenderToCanvas(aCanvas: TFPCustomCanvas; ViewPort: TRect);
     property Width : Integer read FWidth write SetWidth;
   end;
+  TLayoutDisplay=(ldBlock,   //End with Line Break
+                  ldInline); //End without Line Break (In Line)
   TLayoutNode = class(TList)
   private
-    FBoundsRect: TRect;
     FChanged: Boolean;
+    FDisplay: TLayoutDisplay;
     FNode: TDOMNode;
     FParent: TLayoutedDocument;
     FStopAt: TPoint;
@@ -46,12 +57,13 @@ type
     property Parent : TLayoutedDocument read FParent;
     property Childs[Index : Integer] : TLayoutNode read GetChilds;
     function IsInView(ViewPort : TRect) : Boolean;
-    procedure RenderToCanvas(aCanvas: TFPCustomCanvas;ViewPort : TRect);
+    procedure RenderToCanvas(aCanvas: TFPCustomCanvas;ViewPort : TRect);virtual;
     procedure Change;
     property Changed : Boolean read FChanged;
     property BoundsRect : TRect read GetBoundsRect;
     property StartAt : TPoint read GetStartAt;
     property StopAt : TPoint read GetStopAt;
+    property Display : TLayoutDisplay read FDisplay;
   end;
 
   TLayoutInvisibleNode = class(TLayoutNode)
@@ -67,13 +79,27 @@ type
   TLayoutText = class(TLayoutNode)
   private
     FLines : TStringList;
+  protected
   public
     constructor Create(aDoc: TLayoutedDocument; aDomNode: TDOMNode); override;
     destructor Destroy; override;
     procedure Calculate(aCanvas: TFPCustomCanvas);override;
+    procedure RenderToCanvas(aCanvas: TFPCustomCanvas; ViewPort: TRect);override;
+  end;
+  TLineObj = class
+  private
+    FRect: TRect;
+  public
+    constructor Create(aStartPos,aEndPos : TPoint);
+    property Rect : TRect read FRect;
   end;
 
 implementation
+
+constructor TLineObj.Create(aStartPos, aEndPos: TPoint);
+begin
+  FRect := types.Rect(aStartPos.x,aStartPos.y,aEndPos.x,aEndPos.y);
+end;
 
 constructor TLayoutText.Create(aDoc: TLayoutedDocument; aDomNode: TDOMNode);
 begin
@@ -89,33 +115,79 @@ end;
 
 procedure TLayoutText.Calculate(aCanvas: TFPCustomCanvas);
 var
-  tmp: string;
   aPos: TPoint;
   aLineI : Integer = 0;
   aLine : string = '';
   PartWidth: Integer;
+  aText: string;
+  actPart: String;
+  aLineStart: TPoint;
+
+  function GetTextPart : string;
+  begin
+    if pos(' ',aText)>0 then
+      begin
+        Result := copy(aText,0,pos(' ',aText)-1);
+        aText := copy(aText,pos(' ',aText)+1,length(aText));
+      end
+    else
+      begin
+        Result := aText;
+        aText := '';
+      end;
+  end;
+
 begin
-  tmp := DOMNode.TextContent;
+  aText := DOMNode.TextContent;
   aPos := StartAt;
+  aLineStart := aPos;
   FLines.Clear;
-  while pos(' ',tmp)>0 do
+  actPart := GetTextPart;
+  while actPart<>'' do
     begin
-      PartWidth := aCanvas.TextWidth(copy(tmp,0,pos(' ',tmp)-1));
+      PartWidth := aCanvas.TextWidth(actPart);
       if PartWidth+aPos.x<FParent.Width then
         begin
-          aLine += copy(tmp,0,pos(' ',tmp));
-          tmp := copy(tmp,pos(' ',tmp)+1,length(tmp));
+          aLine += actPart;
           aPos.x+=PartWidth;
         end
       else
-        begin
-          FLines.Add(aLine);
+        begin //Line Break
+          FLines.AddObject(aLine,TLineObj.Create(aLineStart,Point(aPos.x,aPos.y+aCanvas.TextHeight(aLine))));
           inc(aLineI);
           aPos.y+=aCanvas.TextHeight(aLine);
-          aLine := '';
+          aPos.x := 0;
+          aLineStart := aPos;
+          aLine := actPart;
         end;
+      actPart := GetTextPart;
     end;
-  FLines.Add(aLine+tmp);
+  if aLine<>'' then
+    begin
+      FLines.AddObject(aLine,TLineObj.Create(aLineStart,Point(aPos.x,aPos.y+aCanvas.TextHeight(aLine))));
+      inc(aLineI);
+    end;
+  if Display=ldBlock then  //Add Line Break
+    begin
+      aPos.y+=aCanvas.TextHeight(aLine);
+      aPos.x := 0;
+    end;
+  FStopAt := aPos;
+  inherited Calculate(aCanvas);
+end;
+
+procedure TLayoutText.RenderToCanvas(aCanvas: TFPCustomCanvas; ViewPort: TRect);
+var
+  i: Integer;
+  aRect: TRect;
+begin
+  inherited RenderToCanvas(aCanvas,ViewPort);
+  for i := 0 to FLines.Count-1 do
+    with TLineObj(FLines.Objects[i]) do
+      begin
+        aRect := Rect;
+        aCanvas.TextOut(aRect.Left,aRect.Top,FLines[i]);
+      end;
 end;
 
 procedure TLayoutInvisibleNode.Calculate(aCanvas: TFPCustomCanvas);
@@ -139,20 +211,18 @@ function TLayoutNode.GetBoundsRect: TRect;
 begin
   if FChanged then
     Calculate(FCanvas);
-  Result := FBoundsRect;
+  Result := Rect(StartAt.x,StartAt.y,StopAt.x,StopAt.y);
 end;
 
 function TLayoutNode.GetStartAt: TPoint;
 begin
   if not Assigned(FPriorNode) then
     Result := Point(0,0)
-  else Result := FPriorNode.StartAt;
+  else Result := FPriorNode.StopAt;
 end;
 
 function TLayoutNode.GetStopAt: TPoint;
 begin
-  if FChanged then
-    Calculate(FCanvas);
   Result := FStopAt;
 end;
 
@@ -167,6 +237,7 @@ begin
   FParent := aDoc;
   FChanged:=True;
   cNode := aDomNode.FirstChild;
+  FDisplay:=ldBlock;
   while Assigned(cNode) do
     begin
       Add(FindNodeType(cNode).Create(FParent,cNode));
@@ -178,9 +249,18 @@ procedure TLayoutNode.Calculate(aCanvas: TFPCustomCanvas);
 var
   i: Integer;
 begin
+  writeln('Calc:'+DOMNode.NodeName+','+DOMNode.NodeValue+' Start:'+IntToStr(StartAt.x)+','+IntToStr(StartAt.y));
   FCanvas := aCanvas;
   for i := 0 to Count-1 do
-    TLayoutNode(Items[i]).Calculate(aCanvas);
+    begin
+      TLayoutNode(Items[i]).Calculate(aCanvas);
+      if TLayoutNode(Items[i]).StopAt.x>FStopAt.x then
+        FStopAt.x := TLayoutNode(Items[i]).StopAt.x;
+      if TLayoutNode(Items[i]).StopAt.y>FStopAt.y then
+        FStopAt.y := TLayoutNode(Items[i]).StopAt.y;
+    end;
+  writeln('Calc:'+DOMNode.NodeName+','+DOMNode.NodeValue+' Stop:'+IntToStr(FStopAt.x)+','+IntToStr(FStopAt.y));
+  FChanged:=False;
 end;
 
 function TLayoutNode.FindNodeType(aNode: TDOMNode): TLayoutNodeClass;
@@ -201,6 +281,7 @@ var
   aRect: TRect;
 begin
   Result := IntersectRect(aRect,ViewPort,BoundsRect);
+  Result := True;
 end;
 
 procedure TLayoutNode.RenderToCanvas(aCanvas: TFPCustomCanvas; ViewPort: TRect);
@@ -235,7 +316,7 @@ var
 begin
   FLayout.Free;
   LastAddedNode:=nil;
-  FLayout := TLayoutNode.Create(Self,aDoc.DocumentElement);
+  FLayout := TLayoutNode.Create(Self,aDoc.DocumentElement.FindNode('body'));
 end;
 
 procedure TLayoutedDocument.Clear;

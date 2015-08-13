@@ -32,6 +32,7 @@ type
     property Layout : TLayoutNode read FLayout;
     procedure Clear;
     procedure RenderToCanvas(aCanvas: TFPCustomCanvas; ViewPort: TRect);
+    function FindLayoutNode(aDOMNode : TDOMNode) : TLayoutNode;
     property Width : Integer read FWidth write SetWidth;
   end;
   TLayoutDisplay=(ldBlock,   //End with Line Break
@@ -43,6 +44,7 @@ type
     FNode: TDOMNode;
     FParent: TLayoutedDocument;
     FStopAt: TPoint;
+    FBottomRight : TPoint;
     FPriorNode : TLayoutNode;
     FCanvas : TFPCustomCanvas;
     function GetBoundsRect: TRect;
@@ -53,6 +55,7 @@ type
     constructor Create(aDoc : TLayoutedDocument; aDomNode : TDOMNode);virtual;
     procedure Calculate(aCanvas: TFPCustomCanvas);virtual;
     function FindNodeType(aNode : TDOMNode) : TLayoutNodeClass;
+    function GetLayoutNode(aDOMNode : TDOMNode) : TLayoutNode;
     property DOMNode : TDOMNode read FNode;
     property Parent : TLayoutedDocument read FParent;
     property Childs[Index : Integer] : TLayoutNode read GetChilds;
@@ -142,6 +145,7 @@ begin
   aPos := StartAt;
   aLineStart := aPos;
   FLines.Clear;
+  FBottomRight:=aPos;
   actPart := GetTextPart;
   while actPart<>'' do
     begin
@@ -155,7 +159,10 @@ begin
         begin //Line Break
           FLines.AddObject(aLine,TLineObj.Create(aLineStart,Point(aPos.x,aPos.y+aCanvas.TextHeight(aLine))));
           inc(aLineI);
+          if aPos.x>FBottomRight.x then
+            FBottomRight.x:=aPos.x;
           aPos.y+=aCanvas.TextHeight(aLine);
+          FBottomRight.y:=aPos.y;
           aPos.x := 0;
           aLineStart := aPos;
           aLine := actPart;
@@ -165,12 +172,15 @@ begin
   if aLine<>'' then
     begin
       FLines.AddObject(aLine,TLineObj.Create(aLineStart,Point(aPos.x,aPos.y+aCanvas.TextHeight(aLine))));
+      if aPos.x>FBottomRight.x then
+        FBottomRight.x:=aPos.x;
       inc(aLineI);
     end;
   if Display=ldBlock then  //Add Line Break
     begin
       aPos.y+=aCanvas.TextHeight(aLine);
       aPos.x := 0;
+      FBottomRight.y:=aPos.y;
     end;
   FStopAt := aPos;
   inherited Calculate(aCanvas);
@@ -211,7 +221,7 @@ function TLayoutNode.GetBoundsRect: TRect;
 begin
   if FChanged then
     Calculate(FCanvas);
-  Result := Rect(StartAt.x,StartAt.y,StopAt.x,StopAt.y);
+  Result := Rect(StartAt.x,StartAt.y,FBottomRight.x,FBottomRight.y);
 end;
 
 function TLayoutNode.GetStartAt: TPoint;
@@ -276,6 +286,23 @@ begin
     end;
 end;
 
+function TLayoutNode.GetLayoutNode(aDOMNode: TDOMNode): TLayoutNode;
+var
+  i: Integer;
+begin
+  Result := nil;
+  for i := 0 to Count-1 do
+    begin
+      if TLayoutNode(Items[i]).DOMNode=aDOMNode then
+        begin
+          Result := TLayoutNode(Items[i]);
+          break;
+        end
+      else Result := TLayoutNode(Items[i]).GetLayoutNode(aDOMNode);
+      if Assigned(Result) then exit;
+    end;
+end;
+
 function TLayoutNode.IsInView(ViewPort: TRect): Boolean;
 var
   aRect: TRect;
@@ -330,6 +357,13 @@ var
 begin
   for i := 0 to FLayout.Count-1 do
     TLayoutNode(FLayout[i]).RenderToCanvas(aCanvas,ViewPort);
+end;
+
+function TLayoutedDocument.FindLayoutNode(aDOMNode: TDOMNode): TLayoutNode;
+var
+  i: Integer;
+begin
+  Result := Layout.GetLayoutNode(aDOMNode);
 end;
 
 end.

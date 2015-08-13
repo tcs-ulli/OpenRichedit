@@ -6,12 +6,13 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  RichEdit, DOM, SAX_HTML, DOM_HTML;
+  RichEdit, DOMLayout, DOM, SAX_HTML, DOM_HTML;
 
 type
   TForm1 = class(TForm)
     TreeView1: TTreeView;
     procedure FormCreate(Sender: TObject);
+    procedure TreeView1SelectionChanged(Sender: TObject);
   private
     procedure XML2Tree(tree: TTreeView; XMLDoc: TXMLDocument);
     { private declarations }
@@ -43,6 +44,18 @@ begin
 
 end;
 
+procedure TForm1.TreeView1SelectionChanged(Sender: TObject);
+var
+  aNode: TLayoutNode;
+begin
+  aNode := RE.Document.FindLayoutNode(TDOMNode(TreeView1.Selected.Data));
+  RE.Refresh;
+  if not Assigned(aNode) then exit;
+  RE.Canvas.Brush.Style:=bsClear;
+  RE.Canvas.Pen.Color:=clBlue;
+  RE.Canvas.Rectangle(aNode.BoundsRect);
+end;
+
 procedure TForm1.XML2Tree(tree: TTreeView; XMLDoc: TXMLDocument);
 var
   iNode: TDOMNode;
@@ -61,7 +74,7 @@ var
       s := Node.NodeName;
     if Node.NodeValue<>'' then
       s := s+'='+Node.NodeValue;
-    TreeNode := tree.Items.AddChild(TreeNode, s);
+    TreeNode := tree.Items.AddChildObject(TreeNode, s, Node);
 
     // Goes to the child node
     cNode := Node.FirstChild;

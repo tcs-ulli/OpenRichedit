@@ -70,6 +70,7 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
+        <UseHeaptrc Value="True"/>
         <UseExternalDbgSyms Value="True"/>
       </Debugging>
     </Linking>

@@ -1,4 +1,8 @@
 {
+  DOM Layout Klassen, die ein DOM Layout auf einen Canvas rendern können
+}
+
+{
 Line
 1   Element 1 Element 2<br>
 2   Element 2 Image 1
@@ -28,6 +32,7 @@ type
     LastAddedNode : TLayoutNode;
   public
     constructor Create;
+    destructor Destroy; override;
     procedure ReadFromDOM(aDoc : TDOMDocument);
     property Layout : TLayoutNode read FLayout;
     procedure Clear;
@@ -53,8 +58,14 @@ type
     function GetStopAt: TPoint;
   public
     constructor Create(aDoc : TLayoutedDocument; aDomNode : TDOMNode);virtual;
+    destructor Destroy; override;
+    //Calculate kann für jede Node selbständig layouten StartAt gibt die Renderstart Koordinaten an
+    //Nach dem Calkulieren müssen in StopAt die Koordinaten wo die nächste Node zu Zeichnen anfangen kann stehen.
+    //In FBottomRight muss die Untere Rechte Ecke der Node gespeichert sein (StopAt kann eine neue Zeile sein)
     procedure Calculate(aCanvas: TFPCustomCanvas);virtual;
+    //Gibt den Nodetypen für die entsprecende DOMNode zurück, TLayoutInvisibleNode für eine nicht unterstützte Node
     function FindNodeType(aNode : TDOMNode) : TLayoutNodeClass;
+    //Findet die LayoutNode zur DOM Node in den Childs (auch Rekursiv)
     function GetLayoutNode(aDOMNode : TDOMNode) : TLayoutNode;
     property DOMNode : TDOMNode read FNode;
     property Parent : TLayoutedDocument read FParent;
@@ -111,7 +122,11 @@ begin
 end;
 
 destructor TLayoutText.Destroy;
+var
+  i: Integer;
 begin
+  for i := 0 to FLines.Count-1 do
+    FLines.Objects[i].Free;
   FLines.Free;
   inherited Destroy;
 end;
@@ -125,13 +140,21 @@ var
   aText: string;
   actPart: String;
   aLineStart: TPoint;
+  LineBreak : Boolean = False;
 
   function GetTextPart : string;
   begin
+    LineBreak:=False;
     if pos(' ',aText)>0 then
       begin
         Result := copy(aText,0,pos(' ',aText)-1);
         aText := copy(aText,pos(' ',aText)+1,length(aText));
+      end
+    else if pos(#10,aText)>0 then
+      begin
+        LineBreak:=True;
+        Result := StringReplace(copy(aText,0,pos(#10,aText)-1),#13,'',[rfReplaceAll]);
+        aText := copy(aText,pos(#10,aText)+1,length(aText));
       end
     else
       begin
@@ -150,7 +173,7 @@ begin
   while actPart<>'' do
     begin
       PartWidth := aCanvas.TextWidth(actPart);
-      if PartWidth+aPos.x<FParent.Width then
+      if (PartWidth+aPos.x<FParent.Width) and (not LineBreak) then
         begin
           aLine += actPart;
           aPos.x+=PartWidth;
@@ -255,6 +278,15 @@ begin
     end;
 end;
 
+destructor TLayoutNode.Destroy;
+var
+  i: Integer;
+begin
+  for i := 0 to Count-1 do
+    Childs[i].Free;
+  inherited Destroy;
+end;
+
 procedure TLayoutNode.Calculate(aCanvas: TFPCustomCanvas);
 var
   i: Integer;
@@ -335,6 +367,12 @@ end;
 
 constructor TLayoutedDocument.Create;
 begin
+end;
+
+destructor TLayoutedDocument.Destroy;
+begin
+  FLayout.Free;
+  inherited Destroy;
 end;
 
 procedure TLayoutedDocument.ReadFromDOM(aDoc: TDOMDocument);

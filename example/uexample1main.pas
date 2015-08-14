@@ -12,6 +12,7 @@ type
   TForm1 = class(TForm)
     TreeView1: TTreeView;
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure TreeView1SelectionChanged(Sender: TObject);
   private
     procedure XML2Tree(tree: TTreeView; XMLDoc: TXMLDocument);
@@ -19,6 +20,7 @@ type
   public
     { public declarations }
     RE : TRichEdit;
+    doc: THTMLDocument;
   end;
 
 var
@@ -32,7 +34,6 @@ procedure TForm1.FormCreate(Sender: TObject);
 var
   DN: TDOMText;
   Root: TDOMElement;
-  doc: THTMLDocument;
 begin
   RE := TRichEdit.Create(Self);
   RE.Parent:=Self;
@@ -42,6 +43,11 @@ begin
   XML2Tree(TreeView1,doc);
   RE.Document.ReadFromDOM(doc);
 
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  Doc.Free;
 end;
 
 procedure TForm1.TreeView1SelectionChanged(Sender: TObject);

@@ -21,6 +21,7 @@ type
     procedure ReadMasterStyles(AStylesNode: TDOMNode);
   public
     procedure Open; override;
+    function ExtractFile(aFilename : string;OutputPath : string) : Boolean;
   end;
 
 implementation
@@ -42,47 +43,15 @@ begin
 
 end;
 
-function GetAttrValue(ANode : TDOMNode; AAttrName : string) : string;
-var
-  i: LongWord;
-  Found: Boolean;
-begin
-  Result := '';
-  if ANode = nil then
-    exit;
-
-  Found := false;
-  i := 0;
-  while not Found and (i < ANode.Attributes.Length) do begin
-    if ANode.Attributes.Item[i].NodeName = AAttrName then begin
-      Found := true;
-      Result := ANode.Attributes.Item[i].NodeValue;
-    end;
-    inc(i);
-  end;
-end;
-
 procedure TODFDocument.Open;
 var
   FilePath: String;
   UnZip: TUnZipper;
   FileList: TStringList;
   StylesNode: TDOMNode;
-  BodyNode: TDOMNode;
-  TextNode: TDOMNode;
   tmp: DOMString;
-  ChildNode: TDOMNode;
-  aNodeName: DOMString;
   Doc : TXMLDocument;
-  cellText: String;
-  hyperlink: String;
-  subnode: TDOMNode;
-  procedure AddToCellText(AText: String);
-  begin
-    if cellText = ''
-       then cellText := AText
-       else cellText := cellText + AText;
-  end;
+  RootNode: TDOMElement;
 begin
   FilePath := GetTempDir(false);
   UnZip := TUnZipper.Create;
@@ -121,43 +90,31 @@ begin
     StylesNode := Self.DocumentElement.FindNode('office:automatic-styles');
     ReadStyles(StylesNode);
 
-    BodyNode := Self.DocumentElement.FindNode('office:body');
+    RootNode := TDOMElement(Self.DocumentElement.FindNode('office:body'));
     if not Assigned(BodyNode) then Exit;
 
-    TextNode := BodyNode.FindNode('office:text');
-    if not Assigned(TextNode) then Exit;
-    cellText := '';
-    hyperlink := '';
-    ChildNode := TextNode.FirstChild;
-    while Assigned(childnode) do
-    begin
-      aNodeName := childNode.NodeName;
-      if aNodeName = 'text:p' then begin
-        // Each 'text:p' node is a paragraph --> we insert a line break after the first paragraph
-        if cellText <> '' then
-          cellText := cellText + LineEnding;
-        subnode := childnode.FirstChild;
-        while Assigned(subnode) do
-        begin
-          aNodename := subnode.NodeName;
-          case aNodename of
-            '#text' :
-              AddToCellText(subnode.TextContent);
-            'text:a':     // "hyperlink anchor"
-              begin
-                hyperlink := GetAttrValue(subnode, 'xlink:href');
-                AddToCellText(subnode.TextContent);
-              end;
-            'text:span':
-              AddToCellText(subnode.TextContent);
-          end;
-          subnode := subnode.NextSibling;
-        end;
-      end;
-      childnode := childnode.NextSibling;
-    end;
+    BodyNode := TDomElement(RootNode.FindNode('office:text'));
+    if not Assigned(BodyNode) then Exit;
   finally
   end;
+end;
+
+function TODFDocument.ExtractFile(aFilename: string; OutputPath: string
+  ): Boolean;
+var
+  UnZip: TUnZipper;
+  FileList: TStringList;
+begin
+  UnZip := TUnZipper.Create;
+  FileList := TStringList.Create;
+  try
+    FileList.Add(aFilename);
+    UnZip.OutputPath := OutputPath;
+    Unzip.UnZipFiles(FileName,FileList);
+  finally
+    FreeAndNil(FileList);
+    FreeAndNil(UnZip);
+  end; //try
 end;
 
 end.

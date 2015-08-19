@@ -14,7 +14,6 @@ type
 
   TODFDocument = class(TCustomRichDocument)
   private
-    Content:txmldocument;
     FFilename : string;
     procedure ReadStyles(AStylesNode: TDOMNode);
     procedure ReadAutomaticStyles(AStylesNode: TDOMNode);
@@ -52,6 +51,8 @@ var
   tmp: DOMString;
   Doc : TXMLDocument;
   RootNode: TDOMElement;
+  bNode: TDOMNode;
+  aContent: TXMLDocument;
 begin
   FilePath := GetTempDir(false);
   UnZip := TUnZipper.Create;
@@ -72,29 +73,35 @@ begin
     ReadXMLFile(Doc, FilePath+'styles.xml');
     DeleteFile(FilePath+'styles.xml');
 
-    StylesNode := Self.DocumentElement.FindNode('office:styles');
+    StylesNode := Doc.DocumentElement.FindNode('office:styles');
     ReadStyles(StylesNode);
 
-    StylesNode := Self.DocumentElement.FindNode('office:automatic-styles');
+    StylesNode := Doc.DocumentElement.FindNode('office:automatic-styles');
     ReadAutomaticStyles(StylesNode);
 
-    StylesNode := Self.DocumentElement.FindNode('office:master-styles');
+    StylesNode := Doc.DocumentElement.FindNode('office:master-styles');
     ReadMasterStyles(StylesNode);
 
     Doc.Free;
 
+    DeleteFile(FilePath+'settings.xml');
+
     //process the content.xml file
-    ReadXMLFile(TXMLDocument(Self), FilePath+'content.xml');
+    aContent := Content;
+    ReadXMLFile(aContent, FilePath+'content.xml');
+    Content := aContent;
     DeleteFile(FilePath+'content.xml');
 
-    StylesNode := Self.DocumentElement.FindNode('office:automatic-styles');
+    StylesNode := Content.DocumentElement.FindNode('office:automatic-styles');
     ReadStyles(StylesNode);
 
-    RootNode := TDOMElement(Self.DocumentElement.FindNode('office:body'));
-    if not Assigned(BodyNode) then Exit;
+    RootNode := TDOMElement(Content.DocumentElement.FindNode('office:body'));
+    if not Assigned(RootNode) then Exit;
 
-    BodyNode := TDomElement(RootNode.FindNode('office:text'));
-    if not Assigned(BodyNode) then Exit;
+    bNode := RootNode.FindNode('office:text');
+    BodyNode := bNode as TDOMElement;
+    if not Assigned(BodyNode) then
+      BodyNode := RootNode;
   finally
   end;
 end;
@@ -115,6 +122,7 @@ begin
     FreeAndNil(FileList);
     FreeAndNil(UnZip);
   end; //try
+  Result := FileExists(OutputPath+aFilename);
 end;
 
 end.

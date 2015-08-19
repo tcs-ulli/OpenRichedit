@@ -10,16 +10,19 @@ uses
   { TCustomRichDocument }
 
 type
-  TCustomRichDocument = class(TDOMDocument)
+  TCustomRichDocument = class
   private
     FBodyNode: TDOMElement;
+    FContent: TXMLDocument;
     FFilename: string;
+    procedure SetBodyNode(AValue: TDOMElement);
     procedure SetFilename(AValue: string);
   public
     procedure Open;virtual;abstract;
     function AsString : string;virtual;
     property FileName : string read FFilename write SetFilename;
-    property BodyNode : TDOMElement read FBodyNode write FBodyNode;
+    property BodyNode : TDOMElement read FBodyNode write SetBodyNode;
+    property Content : TXMLDocument read FContent write FContent;
   end;
 
 implementation
@@ -30,6 +33,12 @@ procedure TCustomRichDocument.SetFilename(AValue: string);
 begin
   if FFilename=AValue then Exit;
   FFilename:=AValue;
+end;
+
+procedure TCustomRichDocument.SetBodyNode(AValue: TDOMElement);
+begin
+  if FBodyNode=AValue then Exit;
+  FBodyNode:=AValue;
 end;
 
 function TCustomRichDocument.AsString: string;
@@ -69,6 +78,7 @@ begin
   Result := '';
   cellText := '';
   hyperlink := '';
+  if BodyNode=nil then exit;
   ChildNode := BodyNode.FirstChild;
   while Assigned(childnode) do
   begin
@@ -99,6 +109,7 @@ begin
     end;
     childnode := childnode.NextSibling;
   end;
+  Result := CellText;
 end;
 
 end.

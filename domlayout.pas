@@ -63,23 +63,27 @@ type
     function GetStartAt: TPoint;
     function GetStopAt: TPoint;
   protected
-    FParent : TLayoutNode;
-    procedure Notify(Ptr: Pointer; Action: TListNotification); override;
+    FPar : TLayoutNode;
   public
     constructor Create(aDiv: TLayoutDiv; aDomNode: TDOMNode); virtual;
     destructor Destroy; override;
     //Calculate kann für jede Node selbständig layouten StartAt gibt die Renderstart Koordinaten an
     //Nach dem Calkulieren müssen in StopAt die Koordinaten wo die nächste Node zu Zeichnen anfangen kann stehen.
     //In FBottomRight muss die Untere Rechte Ecke der Node gespeichert sein (StopAt kann eine neue Zeile sein)
+    procedure PrepareCalculate;
     procedure Calculate(aCanvas: TFPCustomCanvas);virtual;
     //Gibt den Nodetypen für die entsprecende DOMNode zurück, TLayoutInvisibleNode für eine nicht unterstützte Node
     function FindNodeType(aNode : TDOMNode) : TLayoutNodeClass;
     //Findet die LayoutNode zur DOM Node in den Childs (auch Rekursiv)
     function GetLayoutNode(aDOMNode : TDOMNode) : TLayoutNode;
     property DOMNode : TDOMNode read FNode;
+    //Die nächsthöhere Sektion an der das Element sich orientiert (z.b. um umbrüche zu berechnen)
     property Section : TLayoutDiv read FDiv;
-    property Parent : TLayoutNode read FParent;
+    //Nächsthöhere Ebene (Listenvorfahr)
+    property Parent : TLayoutNode read FPar;
+    //Listenelemente
     property Childs[Index : Integer] : TLayoutNode read GetChilds;
+    //Ist das Element im angegebenen Rechteck enthalten ?
     function IsInView(ViewPort : TRect) : Boolean;
     procedure RenderToCanvas(aCanvas: TFPCustomCanvas;ViewPort : TRect);virtual;
     procedure Change;
@@ -119,6 +123,7 @@ type
   private
     FLines : TStringList;
   protected
+    procedure ClearLines;
   public
     constructor Create(aDiv: TLayoutDiv; aDomNode: TDOMNode); override;
     destructor Destroy; override;
@@ -159,6 +164,15 @@ begin
   FRect := types.Rect(aStartPos.x,aStartPos.y,aEndPos.x,aEndPos.y);
 end;
 
+procedure TLayoutText.ClearLines;
+var
+  i: Integer;
+begin
+  for i := 0 to FLines.Count-1 do
+    FLines.Objects[i].Free;
+  FLines.Clear;
+end;
+
 constructor TLayoutText.Create(aDiv: TLayoutDiv; aDomNode: TDOMNode);
 begin
   inherited Create(aDiv, aDomNode);
@@ -169,8 +183,7 @@ destructor TLayoutText.Destroy;
 var
   i: Integer;
 begin
-  for i := 0 to FLines.Count-1 do
-    FLines.Objects[i].Free;
+  ClearLines;
   FLines.Free;
   inherited Destroy;
 end;
@@ -185,6 +198,7 @@ var
   actPart: String;
   aLineStart: TPoint;
   LineBreak : Boolean = False;
+  aNext: TLayoutNode;
 
   function GetTextPart : string;
   begin
@@ -211,7 +225,7 @@ begin
   aText := DOMNode.TextContent;
   aPos := StartAt;
   aLineStart := aPos;
-  FLines.Clear;
+  ClearLines;
   FBottomRight:=aPos;
   actPart := GetTextPart;
   while actPart<>'' do
@@ -249,7 +263,12 @@ begin
       aPos.x := 0;
       FBottomRight.y:=aPos.y;
     end;
-  FStopAt := aPos;
+  if (FStopAt.y<>aPos.y) or (FStopAt.x<>aPos.x) then
+    begin
+      FStopAt := aPos;
+      aNext := GetNext;
+      if Assigned(aNext) then aNext.Change;
+    end;
   inherited Calculate(aCanvas);
 end;
 
@@ -288,7 +307,10 @@ function TLayoutNode.GetBoundsRect: TRect;
 begin
   if not Assigned(FCanvas) then exit;
   if FChanged then
-    Calculate(FCanvas);
+    begin
+      PrepareCalculate;
+      Calculate(FCanvas);
+    end;
   Result := Rect(StartAt.x,StartAt.y,FBottomRight.x,FBottomRight.y);
 end;
 
@@ -307,9 +329,10 @@ end;
 constructor TLayoutNode.Create(aDiv: TLayoutDiv; aDomNode: TDOMNode);
 var
   cNode: TDOMNode;
+  nNode: TLayoutNode;
 begin
   inherited Create;
-  FParent:=nil;
+  FPar:=nil;
   FPriorNode:=nil;
   if Self is TLayoutDiv then aDiv := TLayoutDiv(Self);
   if Assigned(aDiv) then
@@ -324,7 +347,9 @@ begin
   FDisplay:=ldBlock;
   while Assigned(cNode) do
     begin
-      Add(FindNodeType(cNode).Create(FDiv,cNode));
+      nNode := FindNodeType(cNode).Create(FDiv,cNode);
+      Add(nNode);
+      nNode.FPar:=Self;
       cNode := cNode.NextSibling;
     end;
 end;
@@ -338,6 +363,11 @@ begin
   inherited Destroy;
 end;
 
+procedure TLayoutNode.PrepareCalculate;
+begin
+  FStopAt:=StartAt;
+end;
+
 procedure TLayoutNode.Calculate(aCanvas: TFPCustomCanvas);
 var
   i: Integer;
@@ -347,10 +377,9 @@ begin
   else
     writeln('Calc:'+DOMNode.NodeName+','+DOMNode.NodeValue+' Start:'+IntToStr(StartAt.x)+','+IntToStr(StartAt.y));
   FCanvas := aCanvas;
-  if StartAt.X>FStopAt.x then FStopAt.X := StartAt.X;
-  if StartAt.Y>FStopAt.Y then FStopAt.Y := StartAt.Y;
   for i := 0 to Count-1 do
     begin
+      TLayoutNode(Items[i]).PrepareCalculate;
       TLayoutNode(Items[i]).Calculate(aCanvas);
       if TLayoutNode(Items[i]).StopAt.x>FStopAt.x then FStopAt.x := TLayoutNode(Items[i]).StopAt.x;
       if TLayoutNode(Items[i]).StopAt.y>FStopAt.y then FStopAt.y := TLayoutNode(Items[i]).StopAt.y;
@@ -364,7 +393,7 @@ begin
   Result := TLayoutInvisibleNode;
   if (aNode.NodeName='font') then
     Result := TLayoutFont
-  else if ((aNode is TDOMText)) then
+  else if ((aNode.NodeName='p')) then
     Result := TLayoutText
   else
     begin
@@ -408,12 +437,6 @@ begin
       TLayoutNode(Items[i]).RenderToCanvas(aCanvas,ViewPort);
 end;
 
-procedure TLayoutNode.Notify(Ptr: Pointer; Action: TListNotification);
-begin
-  if Action=lnAdded then
-    TLayoutNode(Ptr^).FParent := Self;
-end;
-
 procedure TLayoutNode.Change;
 begin
   FChanged:=True;
@@ -426,12 +449,12 @@ var
   aIdx: Integer;
 begin
   Result := nil;
-  if Assigned(FParent) then
+  if Assigned(FPar) then
     begin
-      aIdx := FParent.IndexOf(Self);
-      if aIdx+1 < FParent.Count then
-        Result := TLayoutNode(FParent.Items[aIdx+1])
-      else Result := FParent.GetNext;
+      aIdx := FPar.IndexOf(Self);
+      if aIdx+1 < FPar.Count then
+        Result := TLayoutNode(FPar.Items[aIdx+1])
+      else Result := FPar.GetNext;
     end;
 end;
 
@@ -472,6 +495,7 @@ begin
   if not Assigned(FLayout) then exit;
   for i := 0 to FLayout.Count-1 do
     TLayoutNode(FLayout[i]).RenderToCanvas(aCanvas,ViewPort);
+  writeln('Rendering end=============================')
 end;
 
 function TLayoutedDocument.FindLayoutNode(aDOMNode: TDOMNode): TLayoutNode;

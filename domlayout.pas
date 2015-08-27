@@ -140,6 +140,11 @@ type
 
 implementation
 
+procedure Debug(s : string);
+begin
+  //writeln(s);
+end;
+
 { TLayoutDiv }
 
 procedure TLayoutDiv.SetWidth(AValue: Integer);
@@ -373,9 +378,9 @@ var
   i: Integer;
 begin
   if Assigned(FPriorNode) then
-    writeln('Calc:'+DOMNode.NodeName+','+DOMNode.NodeValue+' Start:'+IntToStr(StartAt.x)+','+IntToStr(StartAt.y)+' Prior:'+FPriorNode.DOMNode.NodeName)
+    debug('Calc:'+DOMNode.NodeName+','+DOMNode.NodeValue+' Start:'+IntToStr(StartAt.x)+','+IntToStr(StartAt.y)+' Prior:'+FPriorNode.DOMNode.NodeName)
   else
-    writeln('Calc:'+DOMNode.NodeName+','+DOMNode.NodeValue+' Start:'+IntToStr(StartAt.x)+','+IntToStr(StartAt.y));
+    debug('Calc:'+DOMNode.NodeName+','+DOMNode.NodeValue+' Start:'+IntToStr(StartAt.x)+','+IntToStr(StartAt.y));
   FCanvas := aCanvas;
   for i := 0 to Count-1 do
     begin
@@ -384,7 +389,7 @@ begin
       if TLayoutNode(Items[i]).StopAt.x>FStopAt.x then FStopAt.x := TLayoutNode(Items[i]).StopAt.x;
       if TLayoutNode(Items[i]).StopAt.y>FStopAt.y then FStopAt.y := TLayoutNode(Items[i]).StopAt.y;
     end;
-  writeln('Calc:'+DOMNode.NodeName+','+DOMNode.NodeValue+' Stop:'+IntToStr(FStopAt.x)+','+IntToStr(FStopAt.y));
+  debug('Calc:'+DOMNode.NodeName+','+DOMNode.NodeValue+' Stop:'+IntToStr(FStopAt.x)+','+IntToStr(FStopAt.y));
   FChanged:=False;
 end;
 
@@ -495,7 +500,7 @@ begin
   if not Assigned(FLayout) then exit;
   for i := 0 to FLayout.Count-1 do
     TLayoutNode(FLayout[i]).RenderToCanvas(aCanvas,ViewPort);
-  writeln('Rendering end=============================')
+  debug('Rendering end=============================')
 end;
 
 function TLayoutedDocument.FindLayoutNode(aDOMNode: TDOMNode): TLayoutNode;

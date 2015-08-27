@@ -44,6 +44,7 @@ procedure TRichEdit.ChangeBounds(ALeft, ATop, AWidth, AHeight: integer;
 begin
   inherited ChangeBounds(ALeft, ATop, AWidth, AHeight, KeepBase);
   FDoc.Width:=AWidth;
+  Invalidate;
 end;
 
 constructor TRichEdit.Create(AOwner: TComponent);

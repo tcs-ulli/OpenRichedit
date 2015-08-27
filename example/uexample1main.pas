@@ -39,7 +39,7 @@ begin
   RE.Parent:=Self;
   RE.Align := alClient;
 
-  ReadHTMLFile(doc,'..\..\test1.html');
+  ReadHTMLFile(doc,'..'+DirectorySeparator+'..'+DirectorySeparator+'test1.html');
   XML2Tree(TreeView1,doc);
   RE.Document.ReadFromDOM(doc);
 

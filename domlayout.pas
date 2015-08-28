@@ -46,7 +46,10 @@ type
                   ldInline); //End without Line Break (In Line)
 
   { TLayoutNode }
-
+  {:@abstract(Basic Layout Object.)
+   This is parent class for other class with protocol implementations. Do not
+   use this class directly! Use @link(TICMPBlockSocket), @link(TRAWBlockSocket),
+   @link(TTCPBlockSocket) or @link(TUDPBlockSocket) instead.}
   TLayoutNode = class(TList)
   private
     FChanged: Boolean;
@@ -67,31 +70,39 @@ type
   public
     constructor Create(aDiv: TLayoutDiv; aDomNode: TDOMNode); virtual;
     destructor Destroy; override;
-    //Calculate kann für jede Node selbständig layouten StartAt gibt die Renderstart Koordinaten an
+    {:Calculate kann für jede Node selbständig layouten StartAt gibt die Renderstart Koordinaten an
     //Nach dem Calkulieren müssen in StopAt die Koordinaten wo die nächste Node zu Zeichnen anfangen kann stehen.
-    //In FBottomRight muss die Untere Rechte Ecke der Node gespeichert sein (StopAt kann eine neue Zeile sein)
+    //In FBottomRight muss die Untere Rechte Ecke der Node gespeichert sein (StopAt kann eine neue Zeile sein)}
     procedure PrepareCalculate;
     procedure Calculate(aCanvas: TFPCustomCanvas);virtual;
-    //Gibt den Nodetypen für die entsprecende DOMNode zurück, TLayoutInvisibleNode für eine nicht unterstützte Node
+    {:Gibt den Nodetypen für die entsprecende DOMNode zurück, TLayoutInvisibleNode für eine nicht unterstützte Node}
     function FindNodeType(aNode : TDOMNode) : TLayoutNodeClass;
-    //Findet die LayoutNode zur DOM Node in den Childs (auch Rekursiv)
+    {:Findet die LayoutNode zur DOM Node in den Childs (auch Rekursiv)}
     function GetLayoutNode(aDOMNode : TDOMNode) : TLayoutNode;
     property DOMNode : TDOMNode read FNode;
-    //Die nächsthöhere Sektion an der das Element sich orientiert (z.b. um umbrüche zu berechnen)
+    {:Die nächsthöhere Sektion an der das Element sich orientiert (z.b. um umbrüche zu berechnen)}
     property Section : TLayoutDiv read FDiv;
-    //Nächsthöhere Ebene (Listenvorfahr)
+    {:Nächsthöhere Ebene (Listenvorfahr)}
     property Parent : TLayoutNode read FPar;
-    //Listenelemente
+    {:Listenelemente}
     property Childs[Index : Integer] : TLayoutNode read GetChilds;
-    //Ist das Element im angegebenen Rechteck enthalten ?
+    {:Ist das Element im angegebenen Rechteck enthalten ?}
     function IsInView(ViewPort : TRect) : Boolean;
+    {:Ausgabe auf einem (FP)Canvas}
     procedure RenderToCanvas(aCanvas: TFPCustomCanvas;ViewPort : TRect);virtual;
+    {:Markiert das Objekt als geändert und wird beim nächsten versuch auf Layoutdaten zuzugreifen neu berechnet}
     procedure Change;
+    {:Ist das Element geändetr ?}
     property Changed : Boolean read FChanged;
+    {:Gibt das umgebende Rechteck zurück}
     property BoundsRect : TRect read GetBoundsRect;
+    {:Hier ist der oberste Linke Punkt des Objektes}
     property StartAt : TPoint read GetStartAt;
+    {:Hier kann das nächste Objekt begonnen werden}
     property StopAt : TPoint read GetStopAt;
+    {:Soll das Objekt fliessend oder Blockweise gerendert werden ?}
     property Display : TLayoutDisplay read FDisplay;
+    {:Gibt das nächste Objekt nach diesem zurück}
     function GetNext : TLayoutNode;
   end;
 
@@ -100,7 +111,7 @@ type
     procedure Calculate(aCanvas: TFPCustomCanvas);override;
   end;
 
-  { TLayoutDiv }
+  {:Divider Objekt es beherbergt andere Objekte. Zeilen werden an seinen Grenzen umgebrochen z.b. Tabellenzellen }
 
   TLayoutDiv = class(TLayOutNode)
   private
@@ -117,7 +128,7 @@ type
     procedure Calculate(aCanvas: TFPCustomCanvas);override;
   end;
 
-  { TLayoutText }
+  {:Text Objekt}
 
   TLayoutText = class(TLayoutNode)
   private
@@ -402,7 +413,7 @@ begin
     Result := TLayoutText
   else
     begin
-      writeln(aNode.ClassName+' ('+aNode.NodeName+'='+aNode.NodeValue+')');
+      debug(aNode.ClassName+' ('+aNode.NodeName+'='+aNode.NodeValue+')');
     end;
 end;
 

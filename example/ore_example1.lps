@@ -12,7 +12,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="48"/>
       </Unit0>
       <Unit1>
         <Filename Value="uexample1main.pas"/>
@@ -23,7 +23,7 @@
         <UnitName Value="uexample1main"/>
         <TopLine Value="10"/>
         <CursorPos X="15" Y="22"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="48"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -57,7 +57,8 @@
         <Filename Value="..\richedit.pas"/>
         <UnitName Value="RichEdit"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="19" Y="53"/>
+        <TopLine Value="34"/>
+        <CursorPos X="32" Y="40"/>
         <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit6>
@@ -72,8 +73,8 @@
         <UnitName Value="DOMLayout"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="129"/>
-        <CursorPos X="29" Y="143"/>
+        <TopLine Value="17"/>
+        <CursorPos X="16" Y="131"/>
         <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit8>
@@ -134,7 +135,7 @@
       <Unit17>
         <Filename Value="test1.html"/>
         <EditorIndex Value="2"/>
-        <CursorPos X="55" Y="10"/>
+        <CursorPos X="16" Y="11"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="HTML"/>
@@ -234,127 +235,123 @@
         <Loaded Value="True"/>
       </Unit30>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="378" TopLine="355"/>
+        <Caret Line="380" TopLine="355"/>
       </Position1>
       <Position2>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="379" TopLine="355"/>
+        <Caret Line="291" TopLine="276"/>
       </Position2>
       <Position3>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="380" TopLine="355"/>
+        <Caret Line="292" TopLine="276"/>
       </Position3>
       <Position4>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="291" TopLine="276"/>
+        <Caret Line="225" Column="9" TopLine="211"/>
       </Position4>
       <Position5>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="292" TopLine="276"/>
+        <Caret Line="224" TopLine="211"/>
       </Position5>
       <Position6>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="225" Column="9" TopLine="211"/>
+        <Caret Line="425" TopLine="409"/>
       </Position6>
       <Position7>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="224" TopLine="211"/>
+        <Caret Line="272" Column="14" TopLine="258"/>
       </Position7>
       <Position8>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="425" TopLine="409"/>
+        <Caret Line="73" Column="22" TopLine="59"/>
       </Position8>
       <Position9>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="272" Column="14" TopLine="258"/>
+        <Caret Line="7" Column="85"/>
       </Position9>
       <Position10>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="73" Column="22" TopLine="59"/>
+        <Caret Line="70" Column="16" TopLine="45"/>
       </Position10>
       <Position11>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="7" Column="85"/>
+        <Caret Line="73" Column="31" TopLine="48"/>
       </Position11>
       <Position12>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="70" Column="16" TopLine="45"/>
+        <Caret Line="74" Column="24" TopLine="49"/>
       </Position12>
       <Position13>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="73" Column="31" TopLine="48"/>
+        <Caret Line="100" Column="24" TopLine="75"/>
       </Position13>
       <Position14>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="74" Column="24" TopLine="49"/>
+        <Caret Line="117" Column="24" TopLine="92"/>
       </Position14>
       <Position15>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="100" Column="24" TopLine="75"/>
+        <Caret Line="130" Column="24" TopLine="105"/>
       </Position15>
       <Position16>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="117" Column="24" TopLine="92"/>
+        <Caret Line="272" Column="22" TopLine="248"/>
       </Position16>
       <Position17>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="130" Column="24" TopLine="105"/>
+        <Caret Line="289" Column="41" TopLine="264"/>
       </Position17>
       <Position18>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="227" TopLine="244"/>
+        <Caret Line="291" Column="22" TopLine="266"/>
       </Position18>
       <Position19>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="272" Column="22" TopLine="248"/>
+        <Caret Line="295" Column="32" TopLine="270"/>
       </Position19>
       <Position20>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="289" Column="41" TopLine="264"/>
+        <Caret Line="297" Column="22" TopLine="272"/>
       </Position20>
       <Position21>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="291" Column="22" TopLine="266"/>
+        <Caret Line="311" Column="24" TopLine="285"/>
       </Position21>
       <Position22>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="295" Column="32" TopLine="270"/>
+        <Caret Line="312" Column="16" TopLine="287"/>
       </Position22>
       <Position23>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="297" Column="22" TopLine="272"/>
+        <Caret Line="366" Column="39" TopLine="341"/>
       </Position23>
       <Position24>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="311" Column="24" TopLine="285"/>
+        <Caret Line="371" Column="32" TopLine="346"/>
       </Position24>
       <Position25>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="312" Column="16" TopLine="287"/>
+        <Caret Line="382" Column="46" TopLine="357"/>
       </Position25>
       <Position26>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="366" Column="39" TopLine="341"/>
+        <Caret Line="498" Column="10" TopLine="478"/>
       </Position26>
       <Position27>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="371" Column="32" TopLine="346"/>
+        <Caret Line="145" Column="5" TopLine="128"/>
       </Position27>
       <Position28>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="382" Column="46" TopLine="357"/>
+        <Caret Line="44" Column="28" TopLine="34"/>
       </Position28>
       <Position29>
         <Filename Value="..\domlayout.pas"/>
-        <Caret Line="498" Column="10" TopLine="478"/>
+        <Caret Line="145" Column="12" TopLine="120"/>
       </Position29>
-      <Position30>
-        <Filename Value="..\domlayout.pas"/>
-        <Caret Line="145" Column="5" TopLine="128"/>
-      </Position30>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

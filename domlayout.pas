@@ -18,12 +18,16 @@ unit DOMLayout;
 interface
 
 uses
-  Classes, SysUtils, DOM, DOM_HTML, FPCanvas,types;
+  Classes, SysUtils, FPCanvas,types,DOM;
 
 type
   TLayoutNode = class;
   TLayoutDiv = class;
   TLayoutNodeClass = class of TLayoutNode;
+
+  TDOMDocumentreader = class
+
+  end;
 
   { TLayoutedDocument }
 
@@ -45,11 +49,7 @@ type
   TLayoutDisplay=(ldBlock,   //End with Line Break
                   ldInline); //End without Line Break (In Line)
 
-  { TLayoutNode }
-  {:@abstract(Basic Layout Object.)
-   This is parent class for other class with protocol implementations. Do not
-   use this class directly! Use @link(TICMPBlockSocket), @link(TRAWBlockSocket),
-   @link(TTCPBlockSocket) or @link(TUDPBlockSocket) instead.}
+  {:@abstract(Basic Layout Object.)}
   TLayoutNode = class(TList)
   private
     FChanged: Boolean;
@@ -130,9 +130,13 @@ type
 
   {:Text Objekt}
 
+  { TLayoutText }
+
   TLayoutText = class(TLayoutNode)
   private
     FLines : TStringList;
+    FText: string;
+    procedure SetText(AValue: string);
   protected
     procedure ClearLines;
   public
@@ -140,6 +144,7 @@ type
     destructor Destroy; override;
     procedure Calculate(aCanvas: TFPCustomCanvas);override;
     procedure RenderToCanvas(aCanvas: TFPCustomCanvas; ViewPort: TRect);override;
+    property Text : string read FText write SetText;
   end;
   TLineObj = class
   private
@@ -178,6 +183,13 @@ end;
 constructor TLineObj.Create(aStartPos, aEndPos: TPoint);
 begin
   FRect := types.Rect(aStartPos.x,aStartPos.y,aEndPos.x,aEndPos.y);
+end;
+
+procedure TLayoutText.SetText(AValue: string);
+begin
+  if FText=AValue then Exit;
+  FText:=AValue;
+  Change;
 end;
 
 procedure TLayoutText.ClearLines;

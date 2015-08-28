@@ -7,7 +7,8 @@ unit OpenRichedit;
 interface
 
 uses
-  RichEdit, DOMLayout, LazarusPackageIntf;
+  RichEdit, DOMLayout, OpenDocumentReader, domdocumentreader, 
+  LazarusPackageIntf;
 
 implementation
 

@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Controls, DOM, ScrollingControl,Graphics,DOMLayout;
 
 type
-  TRichEdit = class(TScrollingControl)
+  TLayoutControl = class(TScrollingControl)
   private
     FBGColor: TColor;
     FDoc: TLayoutedDocument;
@@ -25,21 +25,27 @@ type
     property DefaultColor : TColor read FBGColor write FBGColor default clWindow;
   end;
 
+  TEditableLayoutConrol = class(TLayoutControl)
+  end;
+
+  TRichEdit = class(TEditableLayoutConrol)
+  end;
+
 implementation
 
-procedure TRichEdit.Paint;
+procedure TLayoutControl.Paint;
 begin
   Canvas.Brush.Color:=FBGColor;
   Canvas.FillRect(ClientRect);
   DoRender(Canvas);
 end;
 
-procedure TRichEdit.DoRender(aCanvas: TCanvas);
+procedure TLayoutControl.DoRender(aCanvas: TCanvas);
 begin
   FDoc.RenderToCanvas(aCanvas,Rect(0,0,Width,Height));
 end;
 
-procedure TRichEdit.ChangeBounds(ALeft, ATop, AWidth, AHeight: integer;
+procedure TLayoutControl.ChangeBounds(ALeft, ATop, AWidth, AHeight: integer;
   KeepBase: boolean);
 begin
   inherited ChangeBounds(ALeft, ATop, AWidth, AHeight, KeepBase);
@@ -47,14 +53,14 @@ begin
   Invalidate;
 end;
 
-constructor TRichEdit.Create(AOwner: TComponent);
+constructor TLayoutControl.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FDoc := TLayoutedDocument.Create;
   FBGColor:=clWindow;
 end;
 
-destructor TRichEdit.Destroy;
+destructor TLayoutControl.Destroy;
 begin
   FDoc.Free;
   inherited Destroy;

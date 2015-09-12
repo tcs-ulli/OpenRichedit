@@ -58,8 +58,7 @@
         <UnitName Value="RichEdit"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="7"/>
-        <CursorPos X="32" Y="40"/>
+        <CursorPos X="42" Y="31"/>
         <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit6>
@@ -73,6 +72,7 @@
         <Filename Value="..\domlayout.pas"/>
         <UnitName Value="DOMLayout"/>
         <EditorIndex Value="3"/>
+        <TopLine Value="283"/>
         <CursorPos X="40" Y="21"/>
         <UsageCount Value="23"/>
         <Loaded Value="True"/>
@@ -239,7 +239,7 @@
         <Loaded Value="True"/>
       </Unit31>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="..\domlayout.pas"/>
         <Caret Line="291" TopLine="276"/>
@@ -356,10 +356,6 @@
         <Filename Value="..\domlayout.pas"/>
         <Caret Line="143" Column="53" TopLine="125"/>
       </Position29>
-      <Position30>
-        <Filename Value="..\domlayout.pas"/>
-        <Caret Line="29" Column="3" TopLine="31"/>
-      </Position30>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

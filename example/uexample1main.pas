@@ -28,6 +28,8 @@ var
 
 implementation
 
+uses
+
 {$R *.lfm}
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -41,6 +43,7 @@ begin
 
   ReadHTMLFile(doc,'..'+DirectorySeparator+'..'+DirectorySeparator+'test1.html');
   XML2Tree(TreeView1,doc);
+  aReader := TDOMReader.
   RE.Document.ReadFromDOM(doc);
 
 end;

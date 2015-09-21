@@ -26,14 +26,16 @@ type
   TLayoutNodeClass = class of TLayoutNode;
   TLayoutedDocument = class;
 
+  {:@abstract(Basic Reader Interface, with this class you can read custom Document types to TLayoutedDocument.)}
   TDocumentreader = class
   public
-    function Read(Document : TLayoutedDocument) : Boolean;virtual;abstract;
+    {:Read liest eine "Node" aus dem Dokument und zwar die nachfolgende zu PriorNode. TLayoutedDocument liest nur die Nodes die gerade zum Rendern benötigt werden}
+    function Read(Document : TLayoutedDocument;PriorNode : TObject) : TLayoutNode;virtual;abstract;
   end;
 
   TTextDocumentReader = class(TDocumentreader)
   public
-    function Read(Document: TLayoutedDocument): Boolean;override;
+    function Read(Document: TLayoutedDocument;PriorNode : TObject): TLayoutNode;override;
   end;
 
   { TLayoutedDocument }
@@ -45,11 +47,14 @@ type
     FWidth: Integer;
     procedure SetCanvas(AValue: TFPCustomCanvas);
     procedure SetWidth(AValue: Integer);
+  protected
   public
     constructor Create;
     destructor Destroy; override;
     procedure LoadFromReader(aReader : TDocumentreader);
     procedure LoadFromStream(aStream : TStream;aReader : TDocumentreader);
+    {This function can be used later to Provide own Classes to an inherited class Readers use it to provide the Real class based on ther suggestions}
+    function GetOwnNodeClass(aClass : TLayoutNodeClass) : TLayoutNodeClass;
     property Layout : TLayoutDiv read FLayout write FLayout;
     procedure Clear;
     procedure RenderToCanvas(aCanvas: TFPCustomCanvas; ViewPort: TRect);
@@ -172,8 +177,8 @@ begin
   writeln(s);
 end;
 
-function TTextDocumentReader.Read(Document: TLayoutedDocument
-  ): Boolean;
+function TTextDocumentReader.Read(Document: TLayoutedDocument;
+  PriorNode: TObject): TLayoutNode;
 begin
 
 end;
@@ -523,6 +528,12 @@ begin
   Layout.Width:=FWidth;
 end;
 
+function TLayoutedDocument.GetOwnNodeClass(aClass: TLayoutNodeClass
+  ): TLayoutNodeClass;
+begin
+  Result := aClass;
+end;
+
 procedure TLayoutedDocument.SetCanvas(AValue: TFPCustomCanvas);
 begin
   if FCanvas=AValue then Exit;
@@ -542,7 +553,7 @@ end;
 procedure TLayoutedDocument.LoadFromReader(aReader: TDocumentreader);
 begin
   FLayout.Free;
-  aReader.Read(Self);
+  aReader.Read(Self,nil);
 end;
 
 procedure TLayoutedDocument.LoadFromStream(aStream: TStream;

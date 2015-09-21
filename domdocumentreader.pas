@@ -12,15 +12,23 @@ uses
    private
      FDOM: TDOMDocument;
    public
-     function Read(Document: TLayoutedDocument): Boolean; override;
+     function Read(Document: TLayoutedDocument;PriorNode : TObject): TLayoutNode; override;
      property DOM : TDOMDocument read FDOM write FDOM;
    end;
 
 implementation
 
-function TDOMReader.Read(Document: TLayoutedDocument): Boolean;
+function TDOMReader.Read(Document: TLayoutedDocument; PriorNode: TObject
+  ): TLayoutNode;
 begin
-  Document.Layout := TLayoutDiv.Create(nil,FDOM.DocumentElement.FindNode('body'));
+  if PriorNode=nil then
+    Result := Document.GetOwnNodeClass(TLayoutDiv).Create(nil,FDOM.DocumentElement.FindNode('body'))
+  else
+    begin
+      NextNode := TDOMNode(PriorNode).FirstChild;
+      NextNode := TDOMElement(PriorNode).NextSibling;
+
+    end;
 end;
 
 end.

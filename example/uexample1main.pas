@@ -28,7 +28,7 @@ var
 
 implementation
 
-uses
+uses domdocumentreader;
 
 {$R *.lfm}
 
@@ -36,6 +36,7 @@ procedure TForm1.FormCreate(Sender: TObject);
 var
   DN: TDOMText;
   Root: TDOMElement;
+  aReader: TDOMReader;
 begin
   RE := TRichEdit.Create(Self);
   RE.Parent:=Self;
@@ -43,9 +44,9 @@ begin
 
   ReadHTMLFile(doc,'..'+DirectorySeparator+'..'+DirectorySeparator+'test1.html');
   XML2Tree(TreeView1,doc);
-  aReader := TDOMReader.
-  RE.Document.ReadFromDOM(doc);
-
+  aReader := TDOMReader.Create;
+  aReader.DOM := doc;
+  RE.Document.LoadFromReader(aReader);
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
